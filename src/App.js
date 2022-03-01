@@ -3,7 +3,7 @@ import './App.css';
 import '@aws-amplify/ui-react/styles.css';
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import { listTodos } from './graphql/queries';
-import { createTodo as createTodoMutation, deleteTodo as deleteTodoMutation } from './graphql/mutations';
+import { createTodo as createNoteMutation, deleteTodo as deleteNoteMutation } from './graphql/mutations';
 import { API, Storage } from 'aws-amplify';
 
 const initialFormState = { name: '', description: '' }
@@ -39,7 +39,7 @@ function App() {
 
   async function createTodo() {
     if (!formData.name || !formData.description) return;
-    await API.graphql({ query: createTodoMutation, variables: { input: formData } });
+    await API.graphql({ query: createNoteMutation, variables: { input: formData } });
     if (formData.image) {
       const image = await Storage.get(formData.image);
       formData.image = image;
@@ -51,7 +51,7 @@ function App() {
   async function deleteTodo({ id }) {
     const newNotesArray = notes.filter(note => note.id !== id);
     setNotes(newNotesArray);
-    await API.graphql({ query: deleteTodoMutation, variables: { input: { id } }});
+    await API.graphql({ query: deleteNoteMutation, variables: { input: { id } }});
   }
 
   return (
