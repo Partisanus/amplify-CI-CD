@@ -4,3 +4,6 @@ type Note @model {
   description: String
   image: String
 }
+type Todo @model @auth(rules: [{ allow: owner }]) {
+  content: String
+}
